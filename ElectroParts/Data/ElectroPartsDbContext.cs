@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ElectroParts.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ElectroPartsDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ElectroPartsDbContext(DbContextOptions<ElectroPartsDbContext> options)
             : base(options)
         {
         }

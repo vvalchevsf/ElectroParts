@@ -1,4 +1,4 @@
-using ElectroParts.Models;
+using ElectroParts.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

@@ -1,4 +1,4 @@
-namespace ElectroParts.Models
+namespace ElectroParts.ViewModels
 {
     public class ErrorViewModel
     {
