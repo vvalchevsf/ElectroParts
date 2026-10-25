@@ -11,4 +11,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.32" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ElectroParts.Data.Models\ElectroParts.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>
