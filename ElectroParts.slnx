@@ -1,3 +1,11 @@
 <Solution>
-  <Project Path="ElectroParts/ElectroParts.csproj" />
+  <Folder Name="/Data/">
+    <Project Path="ElectroParts.Data.Models/ElectroParts.Data.Models.csproj" />
+    <Project Path="ElectroParts.Data/ElectroParts.Data.csproj" />
+  </Folder>
+  <Folder Name="/Web/">
+    <Project Path="ElectroParts/ElectroParts.csproj" />
+  </Folder>
+  <Project Path="ElectroParts.Common/ElectroParts.Common.csproj" />
+  <Project Path="ElectroParts.Services/ElectroParts.Services.csproj" />
 </Solution>

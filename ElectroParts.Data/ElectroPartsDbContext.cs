@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿//using ElectroParts.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ElectroParts.Data
@@ -9,5 +10,8 @@ namespace ElectroParts.Data
             : base(options)
         {
         }
+
+        
+
     }
 }
