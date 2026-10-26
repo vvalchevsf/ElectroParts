@@ -1,0 +1,58 @@
+﻿@model ElectroParts.ViewModels.Part.PartDetailsViewModel
+
+@{
+    ViewData["Title"] = "Подробности за частта";
+}
+
+<h1>Подробности за частта</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Name</h4>
+
+        <dl class="row">
+            <dt class="col-sm-3">Тип</dt>
+            <dd class="col-sm-9">@Model.PartTypeName</dd>
+
+            <dt class="col-sm-3">Производител</dt>
+            <dd class="col-sm-9">@Model.ManufacturerName</dd>
+
+            <dt class="col-sm-3">Кратко описание</dt>
+            <dd class="col-sm-9">@(Model.ShortDescription ?? "Няма данни")</dd>
+
+            <dt class="col-sm-3">Описание</dt>
+            <dd class="col-sm-9">@(Model.Description ?? "Няма описание")</dd>
+
+            <dt class="col-sm-3">Добавена на</dt>
+            <dd class="col-sm-9">@Model.CreatedOn.ToString("dd.MM.yyyy HH:mm")</dd>
+        </dl>
+
+        <h5>Свързани устройства</h5>
+
+        @if (Model.Devices.Any())
+        {
+            <ul>
+                @foreach (var device in Model.Devices)
+                {
+                    <li>
+                        <a asp-controller="Devices"
+                           asp-action="Details"
+                           asp-route-id="@device.Id">
+                            @device.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Няма свързани устройства.</p>
+        }
+
+        <a asp-controller="Parts"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Обратно към списъка
+        </a>
+    </div>
+</div>

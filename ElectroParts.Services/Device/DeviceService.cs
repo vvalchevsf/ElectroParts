@@ -1,11 +1,10 @@
-﻿
-using ElectroParts.Data;
+﻿using ElectroParts.Data;
 using ElectroParts.Services.Contracts;
 using ElectroParts.Services.DTOs.Device.Request;
 using ElectroParts.Services.DTOs.Device.Response;
 using Microsoft.EntityFrameworkCore;
 
-namespace ElectroParts.Services
+namespace ElectroParts.Services.Device
 {
     public class DeviceService : IDeviceService
     {
