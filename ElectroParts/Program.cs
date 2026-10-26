@@ -1,12 +1,12 @@
-using ElectroParts.Data;
-using ElectroParts.Services.Contracts;
-using ElectroParts.Services.Device;
-using ElectroParts.Services.Part;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-
 namespace ElectroParts
 {
+    using ElectroParts.Data;
+    using ElectroParts.Services.Contracts;
+    using ElectroParts.Services.Device;
+    using ElectroParts.Services.Part;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+
     public class Program
     {
         public static void Main(string[] args)
