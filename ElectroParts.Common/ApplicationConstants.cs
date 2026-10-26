@@ -1,7 +1,7 @@
 ﻿
 namespace ElectroParts.Common
 {
-    public class AplicationConstants
+    public class ApplicationConstants
     {
         //
         public const string DateTimeFormat = "dd.MM.yyyy HH:mm";
