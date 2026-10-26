@@ -1,11 +1,15 @@
 ﻿
 namespace ElectroParts.Controllers
 {
-    using ElectroParts.Services.Contracts;
-    using Microsoft.AspNetCore.Mvc;
     using ElectroParts.Common;
+    using ElectroParts.Services.Contracts;
     using ElectroParts.Services.DTOs.Device.Request;
+    using ElectroParts.Services.DTOs.Device.Response;
     using ElectroParts.ViewModels.Device;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using ElectroParts.ViewModels.Part;
+
     public class DevicesController : BaseController
     {
         private readonly IDeviceService deviceService;
@@ -39,6 +43,40 @@ namespace ElectroParts.Controllers
             return View(model);
         }
 
+       // [Authorize]
+        public async Task<IActionResult> Details(int id)
+        {
+            var requestData = new GetDeviceDetailsRequestData
+            {
+                Id = id
+            };
+
+            var device = await deviceService.GetDetailsAsync(requestData);
+
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            var model = new DeviceDetailsViewModel
+            {
+                Id = device.Id,
+                Name = device.Name,
+                Model = device.Model,
+                DeviceTypeName = device.DeviceTypeName,
+                ManufacturerId = device.ManufacturerId,
+                ManufacturerName = device.ManufacturerName,
+                Description = device.Description,
+                CreatedOn = device.CreatedOn,
+                Parts = device.Parts.Select(p => new PartReferenceViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                })
+            };
+
+            return View(model);
+        }
 
     }
 }

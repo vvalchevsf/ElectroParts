@@ -7,6 +7,8 @@ namespace ElectroParts.Services.Contracts
     public interface IDeviceService
     {
         Task<IEnumerable<GetDevicesResponseData>> GetAllAsync(
-            GetDevicesRequestData requestData);
+              GetDevicesRequestData requestData);
+        Task<GetDeviceDetailsResponseData?> GetDetailsAsync(
+             GetDeviceDetailsRequestData requestData);
     }
 }

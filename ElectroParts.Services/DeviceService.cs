@@ -51,6 +51,46 @@ namespace ElectroParts.Services
                 })
                 .ToArrayAsync();
         }
+
+        public async Task<GetDeviceDetailsResponseData?> GetDetailsAsync(
+            GetDeviceDetailsRequestData requestData)
+        {
+            if (requestData == null)
+            {
+                throw new ArgumentNullException(nameof(requestData));
+            }
+
+            if (requestData.Id <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(requestData.Id));
+            }
+
+            return await dbContext.Devices
+                .Where(d => d.Id == requestData.Id)
+                .Select(d => new GetDeviceDetailsResponseData
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Model = d.Model,
+                    DeviceTypeName = d.DeviceType.Name,
+                    ManufacturerId = d.ManufacturerId,
+                    ManufacturerName = d.Manufacturer.Name,
+                    Description = d.Description,
+                    CreatedOn = d.CreatedOn,
+                    Parts = dbContext.DeviceParts
+                                .Where(dp => dp.DeviceId == d.Id)
+                                .Select(dp => new PartReferenceResponseData
+                                {
+                                    Id = dp.PartId,
+                                    Name = dp.Part.Name
+                                })
+                                .ToArray()
+                })
+                .FirstOrDefaultAsync();
+        }
+
+
+
     }
 }
 

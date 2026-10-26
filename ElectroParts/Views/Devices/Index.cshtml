@@ -20,7 +20,13 @@
         {
             <tr>
                 <td>@device.DeviceTypeName</td>
-                <td>@device.Name</td>
+                <td>
+                    <a asp-controller="Devices"
+                       asp-action="Details"
+                       asp-route-id="@device.Id">
+                        @device.Name
+                    </a>
+                </td>
                 <td>@device.Model</td>
                 <td>@device.ManufacturerName</td>
             </tr>
