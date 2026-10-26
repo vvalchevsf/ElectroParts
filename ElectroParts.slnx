@@ -3,9 +3,12 @@
     <Project Path="ElectroParts.Data.Models/ElectroParts.Data.Models.csproj" />
     <Project Path="ElectroParts.Data/ElectroParts.Data.csproj" />
   </Folder>
+  <Folder Name="/Services/">
+    <Project Path="ElectroParts.Services.DTOs/ElectroParts.Services.DTOs.csproj" />
+    <Project Path="ElectroParts.Services/ElectroParts.Services.csproj" />
+  </Folder>
   <Folder Name="/Web/">
     <Project Path="ElectroParts/ElectroParts.csproj" />
   </Folder>
   <Project Path="ElectroParts.Common/ElectroParts.Common.csproj" />
-  <Project Path="ElectroParts.Services/ElectroParts.Services.csproj" />
 </Solution>

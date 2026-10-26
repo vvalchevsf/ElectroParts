@@ -1,6 +1,8 @@
 using ElectroParts.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ElectroParts.Services;
+using ElectroParts.Services.Contracts;
 
 namespace ElectroParts
 {
@@ -11,6 +13,8 @@ namespace ElectroParts
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddScoped<IDeviceService, DeviceService>();
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ElectroPartsDbContext>(options =>
                 options.UseSqlServer(connectionString));

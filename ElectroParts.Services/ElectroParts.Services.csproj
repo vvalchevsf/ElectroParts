@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ElectroParts.Data\ElectroParts.Data.csproj" />
+    <ProjectReference Include="..\ElectroParts.Services.DTOs\ElectroParts.Services.DTOs.csproj" />
+  </ItemGroup>
+
 </Project>

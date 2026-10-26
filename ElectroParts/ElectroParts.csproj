@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ElectroParts.Data\ElectroParts.Data.csproj" />
+    <ProjectReference Include="..\ElectroParts.Services.DTOs\ElectroParts.Services.DTOs.csproj" />
+    <ProjectReference Include="..\ElectroParts.Services\ElectroParts.Services.csproj" />
   </ItemGroup>
 
 </Project>
