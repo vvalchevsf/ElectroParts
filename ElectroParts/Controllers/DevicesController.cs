@@ -49,43 +49,7 @@
             return View(model);
         }
 
-        [Authorize]
-        public async Task<IActionResult> Details(int id)
-        {
-            var requestData = new GetDeviceDetailsRequestData
-            {
-                Id = id
-            };
-
-            var device = await deviceService.GetDetailsAsync(requestData);
-
-            if (device == null)
-            {
-                return NotFound();
-            }
-
-            var model = new DeviceDetailsViewModel
-            {
-                Id = device.Id,
-                Name = device.Name,
-                Model = device.Model,
-                DeviceTypeName = device.DeviceTypeName,
-                ManufacturerId = device.ManufacturerId,
-                ManufacturerName = device.ManufacturerName,
-                Description = device.Description,
-                CreatedOn = device.CreatedOn,
-                Parts = device.Parts.Select(p => new PartReferenceViewModel
-                {
-                    Id = p.Id,
-                    Name = p.Name
-                })
-            };
-
-            return View(model);
-        }
-
-
-        
+               
         [Authorize]
         public async Task<IActionResult> Create()
         {
@@ -127,6 +91,134 @@
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var device = await this.deviceService.GetDetailsAsync(
+                new GetDeviceDetailsRequestData
+                {
+                    Id = id
+                });
+
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            await LoadCreateViewDataAsync();
+
+            var model = new AddDeviceRequestData
+            {
+                Name = device.Name,
+                Model = device.Model,
+                DeviceTypeId = device.DeviceTypeId,
+                ManufacturerId = device.ManufacturerId,
+                Description = device.Description
+            };
+            ViewBag.DeviceId = id;
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit( int id,
+                                                AddDeviceRequestData requestData)
+        {
+            if (!ModelState.IsValid)
+            {
+                await LoadCreateViewDataAsync();
+                ViewBag.DeviceId = id;
+                return View(requestData);
+            }
+
+            var updated = await this.deviceService.UpdateAsync(id, requestData);
+
+            if (!updated)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var device = await this.deviceService.GetDetailsAsync(
+                new GetDeviceDetailsRequestData { Id = id });
+
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            var model = new DeviceDetailsViewModel
+            {
+                Id = device.Id,
+                Name = device.Name,
+                Model = device.Model,
+                DeviceTypeName = device.DeviceTypeName,
+                ManufacturerId = device.ManufacturerId,
+                ManufacturerName = device.ManufacturerName,
+                Description = device.Description,
+                CreatedOn = device.CreatedOn,
+                Parts = device.Parts.Select(p =>
+                    new PartReferenceViewModel { Id = p.Id, Name = p.Name })
+            };
+
+            return View(model);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var deleted = await this.deviceService.DeleteAsync(id);
+
+            if (!deleted)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Details(int id)
+        {
+            var requestData = new GetDeviceDetailsRequestData
+            {
+                Id = id
+            };
+
+            var device = await deviceService.GetDetailsAsync(requestData);
+
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            var model = new DeviceDetailsViewModel
+            {
+                Id = device.Id,
+                Name = device.Name,
+                Model = device.Model,
+                DeviceTypeName = device.DeviceTypeName,
+                ManufacturerId = device.ManufacturerId,
+                ManufacturerName = device.ManufacturerName,
+                Description = device.Description,
+                CreatedOn = device.CreatedOn,
+                Parts = device.Parts.Select(p => new PartReferenceViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name
+                })
+            };
+
+            return View(model);
+        }
     }
 }
 

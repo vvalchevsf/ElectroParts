@@ -1,0 +1,42 @@
+﻿@model ElectroParts.ViewModels.Device.DeviceDetailsViewModel
+
+@{
+    ViewData["Title"] = "Изтриване на устройство";
+}
+
+<h1>Изтриване на устройство</h1>
+
+<div class="alert alert-warning">
+    Сигурни ли сте, че искате да изтриете това устройство?
+    Това действие не може да бъде отменено.
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4>@Model.Name</h4>
+
+        <dl class="row">
+            <dt class="col-sm-3">Тип</dt>
+            <dd class="col-sm-9">@Model.DeviceTypeName</dd>
+
+            <dt class="col-sm-3">Модел</dt>
+            <dd class="col-sm-9">@(Model.Model ?? "Няма данни")</dd>
+
+            <dt class="col-sm-3">Производител</dt>
+            <dd class="col-sm-9">@Model.ManufacturerName</dd>
+        </dl>
+
+        <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" class="btn btn-danger">
+                Изтрий
+            </button>
+            <a asp-action="Details"
+               asp-route-id="@Model.Id"
+               class="btn btn-secondary">
+                Отказ
+            </a>
+        </form>
+    </div>
+</div>
+

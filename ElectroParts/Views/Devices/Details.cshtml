@@ -48,7 +48,24 @@
         {
             <p>Няма въведени свързани части.</p>
         }
-
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a asp-controller="Devices"
+               asp-action="Edit"
+               asp-route-id="@Model.Id"
+               class="btn btn-primary me-2">
+                Редактирай
+            </a>
+            <form asp-controller="Devices"
+                  asp-action="Delete"
+                  asp-route-id="@Model.Id"
+                  method="get"
+                  class="d-inline">
+                <button type="submit" class="btn btn-danger me-2">
+                    Изтрий
+                </button>
+            </form>
+        }
         <a asp-controller="Devices"
            asp-action="Index"
            class="btn btn-secondary">

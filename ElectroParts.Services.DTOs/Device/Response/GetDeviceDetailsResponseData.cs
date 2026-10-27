@@ -1,5 +1,4 @@
-﻿
-namespace ElectroParts.Services.DTOs.Device.Response
+﻿namespace ElectroParts.Services.DTOs.Device.Response
 {
     public class GetDeviceDetailsResponseData:GetDevicesResponseData
     {
@@ -9,6 +8,8 @@ namespace ElectroParts.Services.DTOs.Device.Response
         public DateTime CreatedOn { get; set; }
 
         public IEnumerable<PartReferenceResponseData> Parts { get; set; } = [];
+
+        public int DeviceTypeId { get; set; }
     }
 }
 

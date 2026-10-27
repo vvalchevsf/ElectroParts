@@ -33,6 +33,18 @@ namespace ElectroParts.Data
             builder.Entity<DevicePart>()
                 .HasKey(dp => new { dp.DeviceId, dp.PartId });
 
+            builder.Entity<DevicePart>()
+                .HasOne(dp => dp.Device)
+                .WithMany()
+                .HasForeignKey(dp => dp.DeviceId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<DevicePart>()
+                .HasOne(dp => dp.Part)
+                .WithMany()
+                .HasForeignKey(dp => dp.PartId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.Entity<Device>()
                 .HasOne<IdentityUser>()

@@ -70,13 +70,14 @@
                 .Select(d => new GetDeviceDetailsResponseData
                 {
                     Id = d.Id,
+                    DeviceTypeId = d.DeviceTypeId,
                     Name = d.Name,
                     Model = d.Model,
                     DeviceTypeName = d.DeviceType.Name,
                     ManufacturerId = d.ManufacturerId,
                     ManufacturerName = d.Manufacturer.Name,
                     Description = d.Description,
-                    CreatedOn = d.CreatedOn,
+                    CreatedOn = d.CreatedOn,                    
                     Parts = dbContext.DeviceParts
                                 .Where(dp => dp.DeviceId == d.Id)
                                 .Select(dp => new PartReferenceResponseData
@@ -112,6 +113,59 @@
             await this.dbContext.SaveChangesAsync();
         }
 
+        public async Task<bool> UpdateAsync( int id,
+                                            AddDeviceRequestData requestData)
+        {
+            if (requestData == null)
+            {
+                throw new ArgumentNullException(nameof(requestData));
+            }
+
+            if (id <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+
+            var device = await this.dbContext.Devices
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (device == null)
+            {
+                return false;
+            }
+
+            device.Name = requestData.Name;
+            device.Model = requestData.Model;
+            device.DeviceTypeId = requestData.DeviceTypeId;
+            device.ManufacturerId = requestData.ManufacturerId;
+            device.Description = requestData.Description;
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+
+            var device = await this.dbContext.Devices
+                .FirstOrDefaultAsync(d => d.Id == id);
+
+            if (device == null)
+            {
+                return false;
+            }
+
+            this.dbContext.Devices.Remove(device);
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
 
