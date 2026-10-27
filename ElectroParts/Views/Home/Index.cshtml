@@ -1,8 +1,60 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Начало";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center py-5">
+    <h1 class="display-4">Добре дошли в ElectroParts</h1>
+
+    <p class="lead mt-3">
+        Каталог за електронни устройства, резервни части и производители.
+    </p>
+
+    <p class="text-muted">
+        Разгледайте наличните устройства и части, запознайте се с техните
+        характеристики и информация за производителите.
+    </p>
+</div>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <h2 class="h4">Устройства</h2>
+                <p>Разгледайте каталога с електронни устройства и техните модели.</p>
+                <a asp-controller="Devices"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Към устройствата
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <h2 class="h4">Части</h2>
+                <p>Намерете електронни компоненти и информация за тях.</p>
+                <a asp-controller="Parts"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Към частите
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <h2 class="h4">Производители</h2>
+                <p>Прегледайте информацията за производителите.</p>
+                <a asp-controller="Manufacturers"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Към производителите
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
