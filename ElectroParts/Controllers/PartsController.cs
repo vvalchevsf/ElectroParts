@@ -1,18 +1,26 @@
 ﻿namespace ElectroParts.Controllers
 {
     using ElectroParts.Services.Contracts;
+    using ElectroParts.Services.DTOs.Manufacturer.Request;
     using ElectroParts.Services.DTOs.Part.Request;
     using ElectroParts.ViewModels.Device;
     using ElectroParts.ViewModels.Part;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     public class PartsController : Controller
     {
         private readonly IPartService partService;
+        private readonly IManufacturerService manufacturerService;
+        private readonly IPartTypeService partTypeService;
 
-        public PartsController(IPartService partService)
+        public PartsController( IPartService partService,
+                                IManufacturerService manufacturerService,
+                               IPartTypeService partTypeService)
         {
             this.partService = partService;
+            this.manufacturerService = manufacturerService;
+            this.partTypeService = partTypeService;
         }
 
         public async Task<IActionResult> Index()
@@ -38,6 +46,7 @@
             return this.View(model);
         }
 
+        [Authorize]
         public async Task<IActionResult> Details(int id)
         {
             var requestData = new GetPartDetailsRequestData
@@ -71,6 +80,50 @@
 
             return this.View(model);
         }
+
+        [Authorize]
+        public async Task<IActionResult> Create()
+        {
+            await LoadCreateViewDataAsync();
+            return View();
+        }
+
+        private async Task LoadCreateViewDataAsync()
+        {
+            var manufacturers = await this.manufacturerService.GetAllAsync(
+                new GetManufacturersRequestData
+                {
+                    SkipEntries = 0,
+                    TakeEntries = 1000
+                });
+
+            var partTypes = await this.partTypeService.GetAllAsync();
+
+            ViewBag.Manufacturers = manufacturers;
+            ViewBag.PartTypes = partTypes;
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddPartRequestData requestData)
+        {
+            if (!ModelState.IsValid)
+            {
+                await LoadCreateViewDataAsync();
+                return View(requestData);
+            }
+
+            var userId = User.FindFirst(
+                System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            await this.partService.AddAsync(requestData, userId);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
 
 
     }

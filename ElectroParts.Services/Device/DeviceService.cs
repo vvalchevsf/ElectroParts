@@ -88,6 +88,30 @@
                 })
                 .FirstOrDefaultAsync();
         }
+
+
+        public async Task AddAsync(AddDeviceRequestData requestData, string? userId)
+        {
+            if (requestData == null)
+            {
+                throw new ArgumentNullException(nameof(requestData));
+            }
+
+            var device = new Data.Models.Device
+            {
+                Name = requestData.Name,
+                Model = requestData.Model,
+                DeviceTypeId = requestData.DeviceTypeId,
+                ManufacturerId = requestData.ManufacturerId,
+                Description = requestData.Description,
+                CreatedOn = DateTime.UtcNow,
+                CreatedByUserId = userId
+            };
+
+            await this.dbContext.Devices.AddAsync(device);
+            await this.dbContext.SaveChangesAsync();
+        }
+
     }
 }
 

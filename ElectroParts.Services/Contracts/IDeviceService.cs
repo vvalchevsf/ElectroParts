@@ -10,5 +10,7 @@ namespace ElectroParts.Services.Contracts
               GetDevicesRequestData requestData);
         Task<GetDeviceDetailsResponseData?> GetDetailsAsync(
              GetDeviceDetailsRequestData requestData);
+
+        Task AddAsync(AddDeviceRequestData requestData, string? userId);
     }
 }

@@ -1,22 +1,28 @@
-﻿
-namespace ElectroParts.Controllers
+﻿namespace ElectroParts.Controllers
 {
     using ElectroParts.Common;
     using ElectroParts.Services.Contracts;
     using ElectroParts.Services.DTOs.Device.Request;
     using ElectroParts.Services.DTOs.Device.Response;
+    using ElectroParts.Services.DTOs.Manufacturer.Request;
     using ElectroParts.ViewModels.Device;
+    using ElectroParts.ViewModels.Part;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using ElectroParts.ViewModels.Part;
 
     public class DevicesController : BaseController
     {
         private readonly IDeviceService deviceService;
+        private readonly IManufacturerService manufacturerService;
+        private readonly IDeviceTypeService deviceTypeService;
 
-        public DevicesController(IDeviceService deviceService)
+        public DevicesController(  IDeviceService deviceService,
+                                   IManufacturerService manufacturerService,
+                                   IDeviceTypeService deviceTypeService)
         {
             this.deviceService = deviceService;
+            this.manufacturerService = manufacturerService;
+            this.deviceTypeService = deviceTypeService;
         }
 
 
@@ -76,6 +82,49 @@ namespace ElectroParts.Controllers
             };
 
             return View(model);
+        }
+
+
+        
+        [Authorize]
+        public async Task<IActionResult> Create()
+        {
+            await LoadCreateViewDataAsync();
+            return View();
+        }
+
+        private async Task LoadCreateViewDataAsync()
+        {
+            var manufacturers = await this.manufacturerService.GetAllAsync(
+                new GetManufacturersRequestData
+                {
+                    SkipEntries = 0,
+                    TakeEntries = 1000
+                });
+
+            var deviceTypes = await this.deviceTypeService.GetAllAsync();
+
+            ViewBag.Manufacturers = manufacturers;
+            ViewBag.DeviceTypes = deviceTypes;
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(AddDeviceRequestData requestData)
+        {
+            if (!ModelState.IsValid)
+            {
+                await LoadCreateViewDataAsync();
+                return View(requestData);
+            }
+
+            var userId = User.FindFirst(
+                System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            await this.deviceService.AddAsync(requestData, userId);
+
+            return RedirectToAction(nameof(Index));
         }
 
     }

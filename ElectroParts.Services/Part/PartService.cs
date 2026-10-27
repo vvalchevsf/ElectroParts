@@ -86,5 +86,29 @@
                 })
                 .FirstOrDefaultAsync();
         }
+
+
+        public async Task AddAsync(AddPartRequestData requestData, string? userId)
+        {
+            if (requestData == null)
+            {
+                throw new ArgumentNullException(nameof(requestData));
+            }
+
+            var part = new ElectroParts.Data.Models.Part
+            {
+                Name = requestData.Name,
+                PartTypeId = requestData.PartTypeId,
+                ManufacturerId = requestData.ManufacturerId,
+                ShortDescription = requestData.ShortDescription,
+                Description = requestData.Description,
+                CreatedOn = DateTime.UtcNow,
+                CreatedByUserId = userId
+            };
+
+            await this.dbContext.Parts.AddAsync(part);
+            await this.dbContext.SaveChangesAsync();
+        }
+
     }
 }

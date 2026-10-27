@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNetCore.Mvc.Rendering
+@model ElectroParts.Services.DTOs.Device.Request.AddDeviceRequestData
+
+@{
+    ViewData["Title"] = "Добави устройство";
+}
+
+<h1>Добави устройство</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label">Име</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Model" class="control-label">Модел</label>
+                <input asp-for="Model" class="form-control" />
+                <span asp-validation-for="Model" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="DeviceTypeId" class="control-label">Тип устройство</label>
+                <select asp-for="DeviceTypeId"
+                        asp-items="@(new SelectList(ViewBag.DeviceTypes, "Id", "Name"))"
+                        class="form-select">
+                    <option value="">-- Избери тип --</option>
+                </select>
+                <span asp-validation-for="DeviceTypeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="ManufacturerId" class="control-label">Производител</label>
+                <select asp-for="ManufacturerId"
+                        asp-items="@(new SelectList(ViewBag.Manufacturers, "Id", "Name"))"
+                        class="form-select">
+                    <option value="">-- Избери производител --</option>
+                </select>
+                <span asp-validation-for="ManufacturerId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label">Описание</label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Запази</button>
+                <a asp-action="Index" class="btn btn-secondary">Назад</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

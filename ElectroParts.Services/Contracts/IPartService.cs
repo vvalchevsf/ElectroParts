@@ -10,5 +10,7 @@
 
         Task<GetPartDetailsResponseData?> GetDetailsAsync(
             GetPartDetailsRequestData requestData);
+
+        Task AddAsync(AddPartRequestData requestData, string? userId);
     }
 }

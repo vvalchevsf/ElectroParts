@@ -3,8 +3,10 @@ namespace ElectroParts
     using ElectroParts.Data;
     using ElectroParts.Services.Contracts;
     using ElectroParts.Services.Device;
+    using ElectroParts.Services.DeviceType;
     using ElectroParts.Services.Manufacturer;
     using ElectroParts.Services.Part;
+    using ElectroParts.Services.PartType;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +20,8 @@ namespace ElectroParts
             builder.Services.AddScoped<IDeviceService, DeviceService>();
             builder.Services.AddScoped<IPartService, PartService>();
             builder.Services.AddScoped<IManufacturerService, ManufacturerService>();
+            builder.Services.AddScoped<IPartTypeService, PartTypeService>();
+            builder.Services.AddScoped<IDeviceTypeService, DeviceTypeService>();
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ElectroPartsDbContext>(options =>
