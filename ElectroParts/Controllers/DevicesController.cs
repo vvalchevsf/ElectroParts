@@ -43,7 +43,7 @@ namespace ElectroParts.Controllers
             return View(model);
         }
 
-       // [Authorize]
+        [Authorize]
         public async Task<IActionResult> Details(int id)
         {
             var requestData = new GetDeviceDetailsRequestData

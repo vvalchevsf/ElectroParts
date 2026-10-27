@@ -1,9 +1,7 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace ElectroParts.Data.Models
+﻿namespace ElectroParts.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     public class DevicePart
     {
         [Required]

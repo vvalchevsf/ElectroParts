@@ -1,9 +1,7 @@
-﻿
-using System.ComponentModel.DataAnnotations;
-using ElectroParts.Common.Constants;
-
-namespace ElectroParts.Data.Models
+﻿namespace ElectroParts.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using ElectroParts.Common.Constants;
     public class PartType
     {
         [Key]

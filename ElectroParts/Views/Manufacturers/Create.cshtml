@@ -1,0 +1,41 @@
+﻿@using ElectroParts.Services.DTOs.Manufacturer.Request
+@model AddManufacturerRequestData
+
+@{
+    ViewData["Title"] = "Добавяне на производител";
+}
+
+<h1>Добавяне на производител</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">Име</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label">Адрес</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Url" class="form-label">Уебсайт</label>
+                <input asp-for="Url" class="form-control" placeholder="https://example.com" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Запази</button>
+            <a asp-action="Index" class="btn btn-secondary">Отказ</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
