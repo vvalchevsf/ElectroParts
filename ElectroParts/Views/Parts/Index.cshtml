@@ -17,30 +17,39 @@
 }
 
 
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Име</th>
-            <th>Тип</th>
-            <th>Производител</th>
-            <th>Кратко описание</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var part in Model)
-        {
+@if (Model.Any())
+{
+    <table class="table table-striped table-hover">
+        <thead>
             <tr>
-                <td>
-                    <a asp-controller="Parts"
-                       asp-action="Details"
-                       asp-route-id="@part.Id">
-                        @part.Name
-                    </a>
-                </td>
-                <td>@part.PartTypeName</td>
-                <td>@part.ManufacturerName</td>
-                <td>@(part.ShortDescription ?? "Няма данни")</td>
+                <th>Име</th>
+                <th>Тип</th>
+                <th>Производител</th>
+                <th>Кратко описание</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var part in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Parts"
+                           asp-action="Details"
+                           asp-route-id="@part.Id">
+                            @part.Name
+                        </a>
+                    </td>
+                    <td>@part.PartTypeName</td>
+                    <td>@part.ManufacturerName</td>
+                    <td>@(part.ShortDescription ?? "Няма данни")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    @await Html.PartialAsync(
+        "_EmptyListMessagePartial",
+        "Все още няма добавени части.")
+}

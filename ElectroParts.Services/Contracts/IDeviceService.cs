@@ -1,5 +1,4 @@
-﻿
-namespace ElectroParts.Services.Contracts
+﻿namespace ElectroParts.Services.Contracts
 {
     using ElectroParts.Services.DTOs.Device.Request;
     using ElectroParts.Services.DTOs.Device.Response;
@@ -16,5 +15,9 @@ namespace ElectroParts.Services.Contracts
         Task<bool> UpdateAsync(int id, AddDeviceRequestData requestData);
 
         Task<bool> DeleteAsync(int id);
+
+        Task<bool> AddPartAsync(int deviceId, int partId);
+
+        Task<bool> RemovePartAsync(int deviceId, int partId);
     }
 }

@@ -6,7 +6,6 @@
 
 <h1>Устройства</h1>
 
-
 @if (User.Identity?.IsAuthenticated == true)
 {
     <p>
@@ -18,31 +17,5 @@
     </p>
 }
 
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Тип</th>
-            <th>Наименование</th>
-            <th>Модел</th>
-            <th>Производител</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var device in Model)
-        {
-            <tr>
-                <td>@device.DeviceTypeName</td>
-                <td>
-                    <a asp-controller="Devices"
-                       asp-action="Details"
-                       asp-route-id="@device.Id">
-                        @device.Name
-                    </a>
-                </td>
-                <td>@device.Model</td>
-                <td>@device.ManufacturerName</td>
-            </tr>
-        }
-    </tbody>
-</table>
+@await Html.PartialAsync("_DevicesTablePartial", Model)
 

@@ -1,6 +1,5 @@
 ﻿@using ElectroParts.Services.DTOs.Manufacturer.Response
 @model IEnumerable<GetManufacturersResponseData>
-
 @{
     ViewData["Title"] = "Производители";
 }
@@ -14,31 +13,40 @@
     </a>
 }
 
-<table class="table table-striped table-hover">
-    <thead>
-        <tr>
-            <th>Име</th>
-            <th>Адрес</th>
-            <th>Уебсайт</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var manufacturer in Model)
-        {
+@if (Model.Any())
+{
+    <table class="table table-striped table-hover">
+        <thead>
             <tr>
-                <td>@manufacturer.Name</td>
-                <td>@manufacturer.Address</td>
-                <td>
-                    @if (!string.IsNullOrWhiteSpace(manufacturer.Url))
-                    {
-                        <a href="@manufacturer.Url"
-                           target="_blank"
-                           rel="noopener noreferrer">
-                            Посети сайта
-                        </a>
-                    }
-                </td>
+                <th>Име</th>
+                <th>Адрес</th>
+                <th>Уебсайт</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var manufacturer in Model)
+            {
+                <tr>
+                    <td>@manufacturer.Name</td>
+                    <td>@manufacturer.Address</td>
+                    <td>
+                        @if (!string.IsNullOrWhiteSpace(manufacturer.Url))
+                        {
+                            <a href="@manufacturer.Url"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                Посети сайта
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    @await Html.PartialAsync(
+        "_EmptyListMessagePartial",
+        "Все още няма добавени производители.")
+}

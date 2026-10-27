@@ -9,20 +9,24 @@
     using ElectroParts.ViewModels.Part;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using ElectroParts.Services.DTOs.Part.Request;
 
     public class DevicesController : BaseController
     {
         private readonly IDeviceService deviceService;
         private readonly IManufacturerService manufacturerService;
         private readonly IDeviceTypeService deviceTypeService;
+        private readonly IPartService partService;
 
         public DevicesController(  IDeviceService deviceService,
                                    IManufacturerService manufacturerService,
-                                   IDeviceTypeService deviceTypeService)
+                                   IDeviceTypeService deviceTypeService,
+                                   IPartService partService)
         {
             this.deviceService = deviceService;
             this.manufacturerService = manufacturerService;
             this.deviceTypeService = deviceTypeService;
+            this.partService = partService;
         }
 
 
@@ -184,6 +188,66 @@
 
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize]
+        public async Task<IActionResult> AddPart(int id)
+        {
+            var device = await this.deviceService.GetDetailsAsync(
+                new GetDeviceDetailsRequestData { Id = id });
+
+            if (device == null)
+            {
+                return NotFound();
+            }
+
+            var parts = await this.partService.GetAllAsync(
+                new GetPartsRequestData
+                {
+                    SkipEntries = 0,
+                    TakeEntries = 1000
+                });
+
+            var linkedPartIds = device.Parts.Select(p => p.Id).ToHashSet();
+
+            ViewBag.DeviceId = id;
+            ViewBag.DeviceName = device.Name;
+            ViewBag.AvailableParts = parts
+                .Where(p => !linkedPartIds.Contains(p.Id))
+                .ToList();
+
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddPart(int id, int partId)
+        {
+            var added = await this.deviceService.AddPartAsync(id, partId);
+
+            if (!added)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RemovePart(int id, int partId)
+        {
+            var removed = await this.deviceService.RemovePartAsync(id, partId);
+
+            if (!removed)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
 
         [Authorize]
         public async Task<IActionResult> Details(int id)

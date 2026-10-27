@@ -1,0 +1,46 @@
+﻿@using ElectroParts.Services.DTOs.Part.Response
+
+@{
+    ViewData["Title"] = "Добавяне на част към устройство";
+}
+
+<h1>Добавяне на част</h1>
+
+<p>Устройство: <strong>@ViewBag.DeviceName</strong></p>
+
+@if (ViewBag.AvailableParts.Count > 0)
+{
+    <form asp-action="AddPart" method="post">
+        <input type="hidden" name="id" value="@ViewBag.DeviceId" />
+
+        <div class="mb-3">
+            <label for="partId" class="form-label">Избери част</label>
+            <select id="partId" name="partId" class="form-select" required>
+                <option value="">-- Избери част --</option>
+                @foreach (GetPartsResponseData part in ViewBag.AvailableParts)
+                {
+                    <option value="@part.Id">@part.Name</option>
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Добави</button>
+        <a asp-action="Details"
+           asp-route-id="@ViewBag.DeviceId"
+           class="btn btn-secondary">
+            Отказ
+        </a>
+    </form>
+}
+else
+{
+    <div class="alert alert-info">
+        Няма налични части за добавяне към това устройство.
+    </div>
+
+    <a asp-action="Details"
+       asp-route-id="@ViewBag.DeviceId"
+       class="btn btn-secondary">
+        Обратно към устройството
+    </a>
+}

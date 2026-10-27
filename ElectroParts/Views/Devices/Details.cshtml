@@ -34,12 +34,26 @@
             <ul>
                 @foreach (var part in Model.Parts)
                 {
-                    <li>
+                    <li class="mb-2">
                         <a asp-controller="Parts"
                            asp-action="Details"
                            asp-route-id="@part.Id">
                             @part.Name
                         </a>
+
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <form asp-controller="Devices"
+                                  asp-action="RemovePart"
+                                  method="post"
+                                  class="d-inline">
+                                <input type="hidden" name="id" value="@Model.Id" />
+                                <input type="hidden" name="partId" value="@part.Id" />
+                                <button type="submit" class="btn btn-sm btn-outline-danger ms-2">
+                                    Премахни връзката
+                                </button>
+                            </form>
+                        }
                     </li>
                 }
             </ul>
@@ -48,6 +62,20 @@
         {
             <p>Няма въведени свързани части.</p>
         }
+        
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="mb-3">
+                <a asp-controller="Devices"
+                   asp-action="AddPart"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-success">
+                    Добави част
+                </a>
+            </div>
+        }
+
+
         @if (User.Identity?.IsAuthenticated == true)
         {
             <a asp-controller="Devices"

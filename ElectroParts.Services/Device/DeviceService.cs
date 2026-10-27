@@ -6,7 +6,6 @@
     using ElectroParts.Services.DTOs.Device.Response;
     using Microsoft.EntityFrameworkCore;
 
-
     public class DeviceService : IDeviceService
     {
         private readonly ElectroPartsDbContext dbContext;
@@ -161,6 +160,77 @@
             }
 
             this.dbContext.Devices.Remove(device);
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> AddPartAsync(int deviceId, int partId)
+        {
+            if (deviceId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(deviceId));
+            }
+
+            if (partId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(partId));
+            }
+
+            var deviceExists = await this.dbContext.Devices
+                .AnyAsync(d => d.Id == deviceId);
+
+            var partExists = await this.dbContext.Parts
+                .AnyAsync(p => p.Id == partId);
+
+            if (!deviceExists || !partExists)
+            {
+                return false;
+            }
+
+            var linkExists = await this.dbContext.DeviceParts
+                .AnyAsync(dp => dp.DeviceId == deviceId && dp.PartId == partId);
+
+            if (linkExists)
+            {
+                return true;
+            }
+
+            await this.dbContext.DeviceParts.AddAsync(
+                new ElectroParts.Data.Models.DevicePart
+                {
+                    DeviceId = deviceId,
+                    PartId = partId
+                });
+
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> RemovePartAsync(int deviceId, int partId)
+        {
+            if (deviceId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(deviceId));
+            }
+
+            if (partId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(partId));
+            }
+
+            var link = await this.dbContext.DeviceParts
+                .FirstOrDefaultAsync(
+                    dp => dp.DeviceId == deviceId && dp.PartId == partId);
+
+            if (link == null)
+            {
+                return false;
+            }
+
+            this.dbContext.DeviceParts.Remove(link);
 
             await this.dbContext.SaveChangesAsync();
 
