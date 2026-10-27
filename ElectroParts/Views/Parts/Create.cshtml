@@ -30,6 +30,15 @@
                 </select>
                 <span asp-validation-for="PartTypeId" class="text-danger"></span>
             </div>
+                        
+            <div class="mb-3">
+                <a asp-controller="PartTypes"
+                   asp-action="Create"
+                   target="_blank"
+                   class="btn btn-outline-success btn-sm">
+                    + Добави нов тип част
+                </a>
+            </div>
 
             <div class="mb-3">
                 <label asp-for="ManufacturerId" class="form-label">Производител</label>
