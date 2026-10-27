@@ -36,6 +36,15 @@
                 <span asp-validation-for="DeviceTypeId" class="text-danger"></span>
             </div>
 
+            <div class="mb-3">
+                <a asp-controller="DeviceTypes"
+                   asp-action="Create"
+                   target="_blank"
+                   class="btn btn-outline-success btn-sm">
+                    + Добави нов тип устройство
+                </a>
+            </div>
+
             <div class="form-group mb-3">
                 <label asp-for="ManufacturerId" class="control-label">Производител</label>
                 <select asp-for="ManufacturerId"
